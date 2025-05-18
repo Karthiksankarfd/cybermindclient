@@ -5,7 +5,7 @@ export const postJob = async (jobformData) => {
 
   try {
     
-      await axios.post("http://localhost:5000/api/postjob", jobformData, {
+      await axios.post("https://cyber-mind-server-1.onrender.com/api/postjob", jobformData, {
       headers: {
         "Content-Type": "application/json"
       }
