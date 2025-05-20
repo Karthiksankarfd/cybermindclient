@@ -11,7 +11,7 @@ const FilterNavSection = () => {
 
   const [searchValues, setSearchValues] = useState({
     search: "",
-    jobtype: "",
+    jobType: "",
     location: "",
     minSalary: 5,
     maxSalary: 8,
@@ -23,11 +23,8 @@ const FilterNavSection = () => {
 
     if (value.trim() === "") {
       dispatch({ type: "reset" });
+
     } else if (name === "minSalary" || name === "maxSalary") {
-      // const updated = {
-      //   ...searchValues,
-      //   [name]: value,
-      // };
       dispatch({
         type: "salary",
         payload: {
@@ -48,7 +45,7 @@ const FilterNavSection = () => {
         const query = {
           jobTitle: searchValues.search,
           location: searchValues.location,
-          jobType: searchValues.jobtype,
+          jobType: searchValues.jobType,
           minSalary: searchValues.minSalary,
           maxSalary: searchValues.maxSalary,
         };
@@ -85,20 +82,14 @@ const FilterNavSection = () => {
           placeholder="Preferd Location"
           className="border-none outline-0"
         />
-        <datalist id="locations">
-          <option value="React" />
-          <option value="Angular" />
-          <option value="Vue" />
-          <option value="Svelte" />
-          <option value="Next.js" />
-        </datalist>
       </div>
 
       <div className="flex items-center gap-x-[27px] py-[20px] px-[20px] w-[320px] border-r-2 border-gray-300">
         <img src={person} alt="person" />
         <select
-          name="jobtype"
-          value={searchValues.jobtype}
+          name="jobType"
+          onChange={handleSearch}
+          value={searchValues.jobType}
           className="w-full border-0 focus:outline-0 bg-white"
         >
           <option value="">Select Job Type</option>

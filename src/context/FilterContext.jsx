@@ -17,7 +17,7 @@ const reducer = (state, action) => {
 
     case "jobType":
       return state.filter((job) =>
-        job.location.toLowerCase().includes(action.payload.toLowerCase())
+        job.jobType.toLowerCase().includes(action.payload.toLowerCase())
       );
     
     // case "minSalary":
