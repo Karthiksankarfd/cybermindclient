@@ -3,7 +3,7 @@ import axios from "axios";
 export const searchJob = async (searchParams) => {
   console.log(searchParams)
   try {
-    const res = await axios.get(`https://cyber-mind-server-2.onrender.com/api/postjob/api/search`, {
+    const res = await axios.get(`https://cyber-mind-server-2.onrender.com/api/search`, {
       params: searchParams,
     });
     console.log(res)
