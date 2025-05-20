@@ -1,11 +1,12 @@
 import ApplyButton from "./ApplyButton"
+import cy_logo from '../../assets/altlogo.jpg'
 
-const JobCard = ({companyLogo , jobTitle , experience , postedOn , jobType , salary , descriptions, description, maxSalary}) => {
+const JobCard = ({companyLogo , jobTitle , experience , jobType , salary , descriptions,  maxSalary}) => {
   return (
-    <div className="job-card-container p-4 w-[316px]  min-w-[316px] bg-white   flex flex-col gap-y-2">
-            <div className="job-logo flex justify-between">
-                <img src={companyLogo || "https://img.favpng.com/6/0/6/small-business-company-office-corporation-png-favpng-aiA2F6WzRLUwK0iwMfQQdkJYx.jpg"} alt="logo" className="p-[8.5px] w-[83px] shadow rounded-xl" />
-                <span  className="px-[10px] rounded-[10px] self-start py-[7px] text-[14px] text-black bg-[#B0D9FF]">{postedOn || "24 hrs ago"}</span>
+    <div className="job-card-container p-4 w-[316px]  min-w-[316px] bg-[#FFFFFF]  cards flex flex-col gap-y-2 rounded-xl ">
+            <div className="job-logo flex justify-between h-[82px]">
+                <img src={companyLogo ? companyLogo : cy_logo } alt="company logo" className="p-[8.5px] w-[83px]  rounded-xl  bg-linear-to-b from-[#FEFEFD] to-[#F1F1F1]  border-2 border-[#FFFFFF] object-contain" />
+                <span  className="px-[10px] rounded-[10px] self-start py-[7px] font-[500] text-[14px] text-black bg-[#B0D9FF]">{"24h Ago"}</span>
             </div>
 
             <h1 className="job-title text-[20px] text-black font-[700] py-[4px]">{jobTitle}</h1>
@@ -23,36 +24,25 @@ const JobCard = ({companyLogo , jobTitle , experience , postedOn , jobType , sal
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 20 18" fill="none">
                       <path d="M1.76364 16.3408H3.49091M3.49091 16.3408H12.1273M3.49091 16.3408V4.42274C3.49091 3.45538 3.49091 2.97133 3.67918 2.60185C3.84478 2.27684 4.10882 2.0128 4.43383 1.8472C4.80331 1.65894 5.28736 1.65894 6.25472 1.65894H9.36381C10.3312 1.65894 10.8142 1.65894 11.1837 1.8472C11.5087 2.0128 11.7736 2.27684 11.9392 2.60185C12.1273 2.97097 12.1273 3.45443 12.1273 4.4199V9.43166M12.1273 16.3408H17.3091M12.1273 16.3408V9.43166M17.3091 16.3408H19.0364M17.3091 16.3408V9.43166C17.3091 8.62686 17.309 8.22465 17.1775 7.90723C17.0022 7.484 16.6663 7.14754 16.243 6.97223C15.9256 6.84075 15.5228 6.84075 14.718 6.84075C13.9132 6.84075 13.5108 6.84075 13.1933 6.97223C12.7701 7.14754 12.4341 7.484 12.2588 7.90723C12.1273 8.22465 12.1273 8.62685 12.1273 9.43166M6.08182 7.70439H9.53637M6.08182 5.11348H9.53637" stroke="#5A5A5A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                  <span className="experience">{jobType}</span>
+                  <span className="jobtype">{jobType}</span>
                 </div>
 
                 <div className="flex gap-x-1 items-center ">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                       <path d="M18.1728 10.0001L9.99096 15.4546L1.80914 10.0001M18.1728 13.6365L9.99096 19.091L1.80914 13.6365M18.1728 6.36373L9.99096 11.8183L1.80914 6.36373L9.99096 0.90918L18.1728 6.36373Z" stroke="#5A5A5A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                    <span className="experience">{salary || Math.floor(maxSalary/100000) + "LPA" }</span>
+                    <span className="salary">{salary || Math.floor(maxSalary) + "LPA"}</span>
                 </div>
 
             </div>
 
             {/* JOB DESCRIPTION */}
-            {/* <ul className="job-description text-[14px] font-[500] list-disc text-[#555555] ml-4">
-                 {descriptions.map((description, index)=>{
-                  return(<li key={index}> {description}</li>)
+            <ul className="job-description text-[14px] font-[500] list-disc text-[#555555] ml-4">
+                 {descriptions?.map((description, index)=>{
+                  return(<li className="list-disc text-[14px]" key={index}> {description}</li>)
                  })}
-            </ul> */}
-
-
-
-<ul className="job-description  max-h-[90px] h-[90px] list-disc overflow-hidden text-[14px] font-[500]  text-[#555555] ">
-  {descriptions || description ?.split(".").filter(line => line.trim()).slice(0, 2).map((line, index) => {
-    // return ( <li key={index} className=""> {line.trim()}</li>)
-    return ( <li key={index} className="font-extrabold">. <span className="text-[14px] font-[500]  text-[#555555] ">{line.trim()}</span></li>)
-  }
-  )}
-</ul>
-
-            <ApplyButton onclickfn={"fn to call api"}/>
+            </ul>
+            <ApplyButton />
             
     </div>
   )

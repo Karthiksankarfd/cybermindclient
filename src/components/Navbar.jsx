@@ -6,8 +6,8 @@ import { useModal } from '../context/ModalContext'
 const Navbar = () => {
   const {toggleJobModal} = useModal()
   return (
-    <nav className='w-[62%] min-w-sm flex justify-center items-center  h-[80px] mx-auto'>
-        <div className="navbar-inner-wrapper w-[838px]  h-[48px] flex justify-between items-center">
+    <nav className='w-[890px] min-w-sm flex justify-center items-center  h-[80px] mx-auto bg-[#FFFFFF]  cards rounded-full '>
+        <div className="navbar-inner-wrapper w-[838px]  h-[48px] flex justify-between items-center   px-[26px] py-[16px]">
             <img src={cy_logo} alt="logo" className='h-[44px] w-[44px]' />
             <div className="nav-links flex items-center">
                 <Link to="/" className='text-[16px] py-[8px] px-[24px] font-semibold'>Home</Link>

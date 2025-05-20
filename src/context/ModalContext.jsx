@@ -7,13 +7,14 @@ export const ModalProvider = ({ children }) => {
   const [status , setStatus] = useState("")
   const[isJobUploadSuccess , setIsJobUploadSuccess] = useState(false)
   const [isJobModalOpen, setIsJobModalOpen] = useState(false);
+  const[isloading ,setLoading] = useState(false)
 
   const toggleJobModal = () => {
     setIsJobModalOpen(prev => !prev);
   };
 
   return (
-    <ModalContext.Provider value={{ isJobModalOpen, toggleJobModal,setIsJobModalOpen , isJobUploadSuccess , setIsJobUploadSuccess ,status , setStatus }}>
+    <ModalContext.Provider value={{ isJobModalOpen, toggleJobModal,setIsJobModalOpen , isJobUploadSuccess , setIsJobUploadSuccess ,status , setStatus ,isloading ,setLoading}}>
       {children}
     </ModalContext.Provider>
   );

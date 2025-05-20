@@ -11,7 +11,7 @@ export const JobFormContextProvider = ({ children }) => {
     minSalary: "",
     maxSalary: "",
     applicationDeadLine : 0,
-    descriptions: '',
+    newJobdescriptions:"",
   });
 
   return (

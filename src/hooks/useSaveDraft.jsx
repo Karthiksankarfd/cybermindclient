@@ -2,7 +2,7 @@ import React from 'react'
 import { useJob } from '../context/JobFormContext'
 import { useModal } from '../context/ModalContext'
 
-const useSaveDraft = () => {
+export const useSaveDraft = () => {
     const {jobformData , setJobFormData } = useJob()
     const { toggleJobModal } = useModal()
 
@@ -32,4 +32,4 @@ const useSaveDraft = () => {
   return {saveJobAsDraft , getDraftJob }
 }
 
-export default useSaveDraft
+

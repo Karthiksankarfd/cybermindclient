@@ -2,19 +2,20 @@ import React, { useEffect } from "react";
 import { useModal } from "../../context/ModalContext";
 import useJobForm from "../../hooks/useJobForm";
 import { useJob } from "../../context/JobFormContext";
-import useSaveDraft from "../../hooks/useSaveDraft";
+import {useSaveDraft} from "../../hooks/useSaveDraft";
 
-const JOB_TYPES = ["Internship", "Full Time", "Partime", "Contract"];
+const JOB_TYPES = ["Internship", "Full-Time", "Part-time", "Contract"];
 const LOCATION = ["Chennai", "Bangalore", "Hydrebad", "Mumbai"];
+
 const JobModal = ({ isOpen }) => {
-  const { isJobModalOpen, setIsJobModalOpen } = useModal();
+  const {  setIsJobModalOpen } = useModal();
   const { jobformData, setJobFormData } = useJob();
   const { handleJobFormData, postJobRequested } = useJobForm();
   const { saveJobAsDraft, getDraftJob } = useSaveDraft();
 
   useEffect(() => {
     getDraftJob();
-  }, [isJobModalOpen]);
+  }, []);
 
   if (!isOpen) return null;
 
@@ -240,17 +241,18 @@ const JobModal = ({ isOpen }) => {
               </div>
             </div>
 
-            <div>
-              <label className="block text-[20px] font-semibold">
+            <div className="relative">
+              <label className="block text-[20px] font-semibold " htmlFor="date">
                 Application Dead Line
               </label>
-              <input
+             
+              <input id="date"
                 required
                 onChange={handleJobFormData}
                 name="applicationDeadLine"
                 value={jobformData.applicationDeadLine}
                 type="date"
-                className="w-full border border-[#BCBCBC] rounded p-4"
+                className="w-full border border-[#BCBCBC] rounded p-4 appearance-none"
               />
             </div>
           </div>
@@ -262,7 +264,7 @@ const JobModal = ({ isOpen }) => {
             <textarea
               required
               onChange={handleJobFormData}
-              name="descriptions"
+              name="newJobdescriptions"
               value={jobformData.descriptions}
               className="w-full border border-[#BCBCBC] rounded p-4 text-[16px] text-[#BCBCBC]"
               placeholder="Please share a description to let the candidate know more about the job role"

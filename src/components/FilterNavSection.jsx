@@ -1,86 +1,89 @@
 import React, { useEffect, useState } from "react";
-import search from "../assets/search.png";
+import searchIcon from "../assets/search.png";
 import person from "../assets/person.png";
 import Location from "../assets/Location.png";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { searchJob } from "../services/searchJob";
-import { jobCards } from "../mockdata/jobCards";
+import { useNavigate } from "react-router-dom";
+import { useFilter } from "../context/FilterContext";
 
 const FilterNavSection = () => {
+  const navigateTo = useNavigate();
+  const { dispatch } = useFilter();
 
-  let navigateTo = useNavigate();
-
-  // const [searchQuery, setSearchQuery] = useState("");
   const [searchValues, setSearchValues] = useState({
     search: "",
     jobtype: "",
     location: "",
-    minSalary: 1,
-    maxSalary: 200000,
+    minSalary: 5,
+    maxSalary: 8,
   });
 
+  const handleSearch = (e) => {
+    const { name, value } = e.target;
+    setSearchValues((prev) => ({ ...prev, [name]: value }));
+
+    if (value.trim() === "") {
+      dispatch({ type: "reset" });
+    } else if (name === "minSalary" || name === "maxSalary") {
+      // const updated = {
+      //   ...searchValues,
+      //   [name]: value,
+      // };
+      dispatch({
+        type: "salary",
+        payload: {
+          minSalary: Number(searchValues.minSalary),
+          maxSalary: Number(searchValues.maxSalary),
+        },
+      });
+    } else {
+      dispatch({ type: name, payload: value });
+    }
+  };
+
   useEffect(() => {
-    // this function is to search value when the user clicks the enter button in keyboard
-    const handleKeyDown = (event) => {
+    const handleKeyDown = async (event) => {
       if (event.key === "Enter") {
         event.preventDefault();
 
-        const keyword = searchValues?.search || " ";
-        const location = searchValues?.location || " ";
-        const jobtype = searchValues?.jobtype || " ";
-        const maxsalary = searchValues?.maxSalary ;
-        const minsalary = searchValues?.minSalary ;
-
-        const query = new URLSearchParams({keyword,location,jobtype,minsalary, maxsalary}).toString();
-        console.log(query)
-        setSearchValues({
-          search: "",
-          jobtype: "",
-          location: "",
-          minSalary: 1,
-          maxSalary: 200000,
-        });
-
-        navigateTo(`/search/result?${query}`);
+        const query = {
+          jobTitle: searchValues.search,
+          location: searchValues.location,
+          jobType: searchValues.jobtype,
+          minSalary: searchValues.minSalary,
+          maxSalary: searchValues.maxSalary,
+        };
+        navigateTo(`/search/result?${new URLSearchParams(query).toString()}`);
       }
     };
-
     window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [searchValues, navigateTo]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const { name, value } = e.target;
-    setSearchValues((prev) => ({ ...prev, [name]: value }));
-  };
   return (
-    // here i implemented the event bubbling for handle form change
     <nav
-      className="text-[16px]  max-w-[1312px] w-full flex items-center flex-wrap-reverse"
-      onChange={(e) => handleSearch(e)}
+      className="text-[16px] max-w-[1312px] w-full flex items-center flex-wrap mx-auto min-w-sm "
+      onChange={handleSearch}
     >
-      <div className="realtive flex items-center gap-x-[27px] py-[20px] px-[20px] w-[320px] border-r-2 border-gray-300 ">
-        <img src={search} alt="loading" className="h-[18px]" />
+      <div className="flex items-center gap-x-[27px] py-[20px] px-[0px] w-[320px] border-r-2 border-gray-300">
+        <img src={searchIcon} alt="search" className="h-[18px]" />
         <input
           type="text"
           name="search"
+          value={searchValues.search}
           placeholder="Search By Job Title, Role"
-          className="border-none outline-0 focus:outline-2 outline-gray-400"
+          className="border-none outline-0"
         />
       </div>
 
-      <div className="realtive flex items-center gap-x-[27px] py-[20px] px-[20px] w-[320px] border-r-2 border-gray-300">
-        <img src={Location} alt="loading" className="h-[18px]" />
+      <div className="flex items-center gap-x-[27px] py-[20px] px-[20px] w-[320px] border-r-2 border-gray-300">
+        <img src={Location} alt="location" className="h-[18px]" />
         <input
           list="locations"
           id="locations"
           name="location"
-          placeholder="Search By Job Title, Role"
-          className="border-none outline-0 focus:border-2 border-gray-400"
+          value={searchValues.location}
+          placeholder="Preferd Location"
+          className="border-none outline-0"
         />
         <datalist id="locations">
           <option value="React" />
@@ -91,60 +94,47 @@ const FilterNavSection = () => {
         </datalist>
       </div>
 
-      <div className="select-job-type flex items-center gap-x-[27px] py-[20px] px-[20px] w-[320px] border-r-2 border-gray-300">
-        <img src={person} alt="" />
-        <select name="jobtype" id="jobtype" className="w-full border-0 ">
-          <option className="" value="FullTime">
-            FullTime
-          </option>
-          <option className="" value="Internship">
-            Internship
-          </option>
-          <option className="" value="Internship">
-            Remote
-          </option>
-          <option className="" value="Partime">
-            Partime
-          </option>
-          <option className="" value="Contract">
-            Contract
-          </option>
+      <div className="flex items-center gap-x-[27px] py-[20px] px-[20px] w-[320px] border-r-2 border-gray-300">
+        <img src={person} alt="person" />
+        <select
+          name="jobtype"
+          value={searchValues.jobtype}
+          className="w-full border-0 focus:outline-0 bg-white"
+        >
+          <option value="">Select Job Type</option>
+          <option value="Full-time">Full-time</option>
+          <option value="Part-time">Part-time</option>
+          <option value="Contract">Contract</option>
+          <option value="Internship">Internship</option>
         </select>
       </div>
 
-      <div className="salary-range   gap-x-[27px] py-[20px] px-[20px] w-[320px] ">
-        <div>
-          <span className="text-start">Salary Per Month</span>
+      <div className="salary-range gap-x-[27px] py-[20px] px-[20px]  ml-auto">
+        <div className="font-[600] text-[16px] text-black  flex justify-between">
+          <span className="mr-auto">Salary Per Month</span>
           <span>
-            ₹
-            {searchValues?.minSalary > 1000
-              ? searchValues?.minSalary / 1000
-              : searchValues?.minSalary}
-            k- ₹
-            {searchValues.maxSalary > 100000
-              ? searchValues.maxSalary / 1000
-              : searchValues.maxSalary}
-            k
+            ₹{searchValues.minSalary}0k - ₹{searchValues.maxSalary}0k
           </span>
         </div>
 
         <form className="flex items-center">
           <input
-            defaultValue="10000"
             name="minSalary"
             type="range"
-            className=" custom-range range-slider"
-            step="1000"
-            min="10000"
-            max="100000"
+            step="1"
+            min="5"
+            max="9"
+            value={searchValues.minSalary}
+            className="range-slider slider"
           />
           <input
-            step="1000"
-            min="300000"
-            max="1000000"
             name="maxSalary"
             type="range"
-            className=" custom-range range-slider"
+            step="1"
+            min="5"
+            max="25"
+            value={searchValues.maxSalary}
+            className="range-slider slider"
           />
         </form>
       </div>

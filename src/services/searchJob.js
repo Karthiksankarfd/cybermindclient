@@ -1,16 +1,15 @@
-import axios from "axios"
+import axios from "axios";
 
-export const searchJob = async (searchValue)=>{
-    console.log(searchValue)
-    try{
-
-      let res =  await axios.get(`https://cyber-mind-server-1.onrender.com/api/search`, {
-           params: { keyword: searchValue}
-        })
-
-        return res
-        
-    }catch(e){
-        console.log(e , "Error searching jobs")
-    }
-}
+export const searchJob = async (searchParams) => {
+  console.log(searchParams)
+  try {
+    const res = await axios.get(`https://cyber-mind-server-2.onrender.com/api/postjob/api/search`, {
+      params: searchParams,
+    });
+    console.log(res)
+    return res; // jobs data
+  } catch (e) {
+    console.log(e, "Error searching jobs");
+    throw e;
+  }
+};

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useModal } from '../../context/ModalContext';
 import { useNavigate } from 'react-router-dom';
+
 const statusMessages = {
   uploading: { text: 'Uploading job...', color: 'text-blue-600' },
   success: { text: 'Job uploaded successfully!', color: 'text-green-600' },

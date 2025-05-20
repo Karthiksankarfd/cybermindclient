@@ -15,6 +15,7 @@ const useJobForm = () => {
             }
         }
         setJobFormData((jobformData)=> ({...jobformData, [name] : value}))
+        console.log(jobformData)
     }
    
    const postJobRequested = async () =>{
